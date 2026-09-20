@@ -1,0 +1,351 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>سامانه کارسنجی و زمان‌سنجی توزین داروسازی</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --primary: #0284c7;
+      --primary-dark: #0369a1;
+      --bg: #f1f5f9;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --border: #cbd5e1;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --warning: #d97706;
+    }
+    * { box-sizing: border-box; font-family: Tahoma, 'Vazirmatn', sans-serif; }
+    body { background-color: var(--bg); color: var(--text); margin: 0; padding: 15px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    header {
+      background: linear-gradient(135deg, #0369a1, #0284c7);
+      color: white;
+      padding: 16px 24px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    }
+    header h1 { margin: 0; font-size: 1.3rem; }
+    .badge { background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 20px; font-size: 0.85rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 16px; }
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 16px 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      border: 1px solid var(--border);
+    }
+    .card-title {
+      font-weight: bold;
+      color: var(--primary-dark);
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+    }
+    .form-group { margin-bottom: 12px; }
+    label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px; color: #475569; }
+    input, select, textarea {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input:focus, select:focus { border-color: var(--primary); }
+    .time-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .kpi-container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+    .kpi-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+    }
+    .kpi-val { font-size: 1.4rem; font-weight: bold; color: var(--primary); margin-top: 4px; }
+    .chart-box { height: 180px; position: relative; margin-top: 10px; }
+    .btn-submit {
+      background: var(--success);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 14px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 15px;
+      transition: background 0.2s;
+    }
+    .btn-submit:hover { background: #15803d; }
+    .btn-submit:disabled { background: #94a3b8; cursor: not-allowed; }
+    #statusMsg { text-align: center; font-weight: bold; margin-top: 10px; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>سامانه ثبت کارسنجی و زمان‌سنجی فرآیند توزین</h1>
+    <span class="badge">پایش عملکرد GMP</span>
+  </header>
+
+  <form id="timeStudyForm">
+    <div class="grid">
+      <!-- ستون ۱: اطلاعات پایه فرآیند -->
+      <div class="card">
+        <div class="card-title">۱. اطلاعات پایه و مشخصات فرآیند</div>
+        <div class="form-group">
+          <label>تاریخ ثبت:</label>
+          <input type="date" id="studyDate" required>
+        </div>
+        <div class="form-group">
+          <label>شیفت کاری:</label>
+          <select id="shift" required>
+            <option value="روز">شیفت روز</option>
+            <option value="شب">شیفت شب</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>محل توزین (اتاق/سایت):</label>
+          <select id="site" required>
+            <option value="N4 API">N4 API</option>
+            <option value="N1 Clean">N1 Clean</option>
+            <option value="N2 Dispensing">N2 Dispensing</option>
+            <option value="N3 Sampling">N3 Sampling</option>
+            <option value="اتاق شستشو">اتاق شستشو</option>
+            <option value="سایر">سایر</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>نوع فرآیند:</label>
+          <select id="processType" required>
+            <option value="توزین مواد اولیه">توزین مواد اولیه</option>
+            <option value="توزین اقلام بسته‌بندی">توزین اقلام بسته‌بندی</option>
+            <option value="نمونه‌برداری">نمونه‌برداری</option>
+            <option value="شستشو و استریل">شستشو و استریل</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>نام محصول / ماده:</label>
+          <input type="text" id="productName" placeholder="مثال: Polyoxyl 60 یا سوسپانسیون..." required>
+        </div>
+        <div class="form-group">
+          <label>شماره بچ (Batch No):</label>
+          <input type="text" id="batchNo" placeholder="مثال: B-1403-098" required>
+        </div>
+      </div>
+
+      <!-- ستون ۲: اپراتورها و زمان‌ها -->
+      <div class="card">
+        <div class="card-title">۲. اپراتورها و ثبت زمان‌ها</div>
+        <div class="form-group">
+          <label>اپراتور اصلی (۱):</label>
+          <input type="text" id="op1" required placeholder="نام اپراتور اصلی">
+        </div>
+        <div class="time-row">
+          <div class="form-group">
+            <label>کمک اپراتور ۲:</label>
+            <input type="text" id="op2" placeholder="اختیاری">
+          </div>
+          <div class="form-group">
+            <label>کمک اپراتور ۳:</label>
+            <input type="text" id="op3" placeholder="اختیاری">
+          </div>
+        </div>
+        
+        <div class="card-title" style="margin-top:15px;">زمان کل فرآیند</div>
+        <div class="time-row">
+          <div class="form-group">
+            <label>ساعت شروع کل:</label>
+            <input type="time" id="startTime" class="calc-trigger" required>
+          </div>
+          <div class="form-group">
+            <label>ساعت پایان کل:</label>
+            <input type="time" id="endTime" class="calc-trigger" required>
+          </div>
+        </div>
+
+        <div class="card-title" style="margin-top:10px;">زمان‌های غیرخالص و توقفات (دقیقه)</div>
+        <div class="form-group">
+          <label>زمان آماده‌سازی و چیدمان (Prep Time):</label>
+          <input type="number" id="prepMin" class="calc-trigger" value="0" min="0">
+        </div>
+        <div class="time-row">
+          <div class="form-group">
+            <label>توقف کنترل کیفیت (QC):</label>
+            <input type="number" id="qcMin" class="calc-trigger" value="0" min="0">
+          </div>
+          <div class="form-group">
+            <label>توقف فنی / خطای تجهیز (MAL):</label>
+            <input type="number" id="malMin" class="calc-trigger" value="0" min="0">
+          </div>
+        </div>
+      </div>
+
+      <!-- ستون ۳: شاخص‌ها و تحلیل آنی -->
+      <div class="card">
+        <div class="card-title">۳. شاخص‌های بهره‌وری و تحلیل</div>
+        
+        <div class="kpi-container">
+          <div class="kpi-box">
+            <label>کل زمان سپری شده</label>
+            <div class="kpi-val" id="totalDurationDisplay">۰ دقیقه</div>
+          </div>
+          <div class="kpi-box">
+            <label>زمان خالص ارزش‌افزا</label>
+            <div class="kpi-val" id="netDurationDisplay" style="color:var(--success);">۰ دقیقه</div>
+          </div>
+        </div>
+
+        <div class="kpi-box" style="margin-top: 10px;">
+          <label>شاخص راندمان زمانی (Efficiency)</label>
+          <div class="kpi-val" id="effDisplay" style="color:var(--warning);">۰ ٪</div>
+        </div>
+
+        <div class="chart-box">
+          <canvas id="timeChart"></canvas>
+        </div>
+
+        <div class="form-group" style="margin-top: 10px;">
+          <label>توضیحات و انحرافات (Deviations):</label>
+          <textarea id="notes" rows="2" placeholder="توضیح علل توقفات یا مشاهدات..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">ثبت نهایی در دیتابیس آنلاین</button>
+        <div id="statusMsg"></div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script>
+  // ** آدرس Web App گوگل‌شیت را اینجا قرار بده **
+  const GOOGLE_SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";
+
+  document.getElementById('studyDate').valueAsDate = new Date();
+
+  let timeChart;
+  function initChart() {
+    const ctx = document.getElementById('timeChart').getContext('2d');
+    timeChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['زمان مفید خالص', 'آماده‌سازی', 'توقف QC', 'خرابی و توقف MAL'],
+        datasets: [{
+          data: [1, 0, 0, 0],
+          backgroundColor: ['#16a34a', '#0284c7', '#d97706', '#dc2626']
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 10 } } } }
+      }
+    });
+  }
+  initChart();
+
+  function calculateTimes() {
+    const start = document.getElementById('startTime').value;
+    const end = document.getElementById('endTime').value;
+    const prep = parseFloat(document.getElementById('prepMin').value) || 0;
+    const qc = parseFloat(document.getElementById('qcMin').value) || 0;
+    const mal = parseFloat(document.getElementById('malMin').value) || 0;
+
+    if (!start || !end) return { total: 0, net: 0, eff: 0 };
+
+    const [sH, sM] = start.split(':').map(Number);
+    const [eH, eM] = end.split(':').map(Number);
+
+    let totalMinutes = (eH * 60 + eM) - (sH * 60 + sM);
+    if (totalMinutes < 0) totalMinutes += 1440; // مدیریت عبور از نیمه‌شب
+
+    const wastes = prep + qc + mal;
+    let netMinutes = Math.max(0, totalMinutes - wastes);
+    let efficiency = totalMinutes > 0 ? ((netMinutes / totalMinutes) * 100).toFixed(1) : 0;
+
+    document.getElementById('totalDurationDisplay').innerText = totalMinutes + " دقیقه";
+    document.getElementById('netDurationDisplay').innerText = netMinutes + " دقیقه";
+    document.getElementById('effDisplay').innerText = efficiency + " ٪";
+
+    timeChart.data.datasets[0].data = [netMinutes, prep, qc, mal];
+    timeChart.update();
+
+    return { total: totalMinutes, net: netMinutes, eff: efficiency };
+  }
+
+  document.querySelectorAll('.calc-trigger').forEach(el => {
+    el.addEventListener('input', calculateTimes);
+  });
+
+  document.getElementById('timeStudyForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    const msg = document.getElementById('statusMsg');
+
+    if (GOOGLE_SCRIPT_URL === "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE") {
+      alert("لطفاً ابتدا آدرس گوگل اسکریپت را در متغیر GOOGLE_SCRIPT_URL قرار دهید!");
+      return;
+    }
+
+    const { total, net, eff } = calculateTimes();
+
+    const payload = {
+      date: document.getElementById('studyDate').value,
+      shift: document.getElementById('shift').value,
+      site: document.getElementById('site').value,
+      processType: document.getElementById('processType').value,
+      productName: document.getElementById('productName').value,
+      batchNo: document.getElementById('batchNo').value,
+      op1: document.getElementById('op1').value,
+      op2: document.getElementById('op2').value,
+      op3: document.getElementById('op3').value,
+      startTime: document.getElementById('startTime').value,
+      endTime: document.getElementById('endTime').value,
+      totalMinutes: total,
+      prepMinutes: document.getElementById('prepMin').value,
+      qcMinutes: document.getElementById('qcMin').value,
+      malMinutes: document.getElementById('malMin').value,
+      netMinutes: net,
+      efficiency: eff,
+      notes: document.getElementById('notes').value
+    };
+
+    btn.disabled = true;
+    btn.innerText = "در حال ارسال اطلاعات...";
+    msg.innerText = "";
+
+    try {
+      await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      msg.style.color = "green";
+      msg.innerText = "✓ اطلاعات با موفقیت در دیتابیس ثبت گردید.";
+      document.getElementById('timeStudyForm').reset();
+      document.getElementById('studyDate').valueAsDate = new Date();
+      calculateTimes();
+    } catch (err) {
+      msg.style.color = "red";
+      msg.innerText = "خطا در اتصال: " + err.message;
+    } finally {
+      btn.disabled = false;
+      btn.innerText = "ثبت نهایی در دیتابیس آنلاین";
+    }
+  });
+</script>
+</body>
+</html>
