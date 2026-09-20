@@ -3,231 +3,264 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>سامانه ثبت زمان‌سنجی انبار دارویی</title>
+    <title>پنل زمان‌سنجی جامع انبار داروسازی</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
     <style>
-        body {
-            background-color: #f4f7f6;
-            font-family: system-ui, -apple-system, "Segoe UI", Roboto, Tahoma, sans-serif;
-            padding: 20px 10px;
-        }
-        .main-card {
-            max-width: 800px;
-            margin: 0 auto;
-            background: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            padding: 25px;
-        }
-        .login-card {
-            max-width: 400px;
-            margin: 60px auto;
-            background: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            padding: 30px;
-        }
-        .section-header {
-            background-color: #e9ecef;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-weight: bold;
-            margin-top: 15px;
-            margin-bottom: 12px;
-            color: #495057;
-            font-size: 0.95rem;
-        }
+        :root { --primary-color: #2c3e50; --accent-color: #3498db; }
+        body { background-color: #f0f2f5; font-family: Tahoma, Arial; padding: 20px; }
+        .main-container { max-width: 950px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        .login-box { max-width: 400px; margin: 100px auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .section-title { background: #e9ecef; padding: 10px; border-radius: 5px; margin-top: 25px; margin-bottom: 15px; font-weight: bold; color: var(--primary-color); border-right: 5px solid var(--accent-color); }
+        .form-label { font-size: 0.85rem; font-weight: 600; color: #555; }
+        .row-gap { margin-bottom: 15px; }
     </style>
 </head>
 <body>
 
-    <!-- صفحه ورود (Login) -->
-    <div id="loginSection" class="login-card">
-        <h4 class="text-center mb-3 text-primary">ورود به سامانه زمان‌سنجی</h4>
-        <p class="text-muted text-center small mb-4">انبار مرکزی شرکت داروسازی</p>
-        
-        <div id="loginError" class="alert alert-danger d-none py-2 text-center" role="alert">
-            کد اپراتور یا رمز عبور نامعتبر است!
-        </div>
-
+    <!-- صفحه ورود -->
+    <div id="loginSection" class="login-box">
+        <h4 class="text-center mb-4">ورود اپراتور انبار</h4>
         <div class="mb-3">
-            <label class="form-label">کد اپراتور:</label>
-            <input type="text" id="username" class="form-control text-center" placeholder="مثال: 101" autofocus>
+            <label class="form-label">کد پرسنلی:</label>
+            <input type="text" id="username" class="form-control text-center" placeholder="101" autofocus>
         </div>
         <div class="mb-4">
             <label class="form-label">رمز عبور:</label>
             <input type="password" id="password" class="form-control text-center" placeholder="****">
         </div>
-        <button type="button" class="btn btn-primary w-100 py-2" onclick="login()">ورود به برنامه</button>
+        <button class="btn btn-primary w-100" onclick="login()">ورود به پنل زمان‌سنجی</button>
+        <div id="loginError" class="text-danger mt-3 text-center d-none small">اطلاعات ورود اشتباه است!</div>
     </div>
 
-    <!-- فرم اصلی ثبت داده (بعد از لاگین نمایان می‌شود) -->
-    <div id="formSection" class="main-card d-none">
-        <div class="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2">
-            <div>
-                <h5 class="m-0 text-primary">فرم ثبت زمان‌سنجی توزین و انتقال</h5>
-                <small class="text-muted">اپراتور فعال: <span id="operatorDisplay" class="fw-bold text-dark"></span></small>
+    <!-- فرم اصلی مطابق با ستون‌های اکسل -->
+    <div id="formSection" class="main-container d-none">
+        <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2">
+            <h5 class="text-primary m-0">سامانه جامع ثبت وقایع توزین (زمان‌سنجی)</h5>
+            <div class="text-end">
+                <span id="opNameDisplay" class="badge bg-secondary p-2"></span>
+                <button class="btn btn-outline-danger btn-sm ms-2" onclick="logout()">خروج</button>
             </div>
-            <button class="btn btn-outline-danger btn-sm" onclick="logout()">خروج</button>
         </div>
 
         <form id="timeStudyForm" onsubmit="submitData(event)">
-            <!-- بخش ۱: اطلاعات پایه سفارش -->
-            <div class="section-header">۱. اطلاعات سفارش و متریال</div>
-            <div class="row g-2">
-                <div class="col-md-4">
-                    <label class="form-label small">شماره بچ (Batch No):</label>
-                    <input type="text" id="batchNo" class="form-control form-control-sm" required>
+            
+            <!-- بخش ۱: اطلاعات شناسایی -->
+            <div class="section-title">۱. اطلاعات پایه تولید</div>
+            <div class="row row-gap">
+                <div class="col-md-3">
+                    <label class="form-label">نام محصول نهایی:</label>
+                    <input type="text" id="finalProduct" class="form-control" required placeholder="مثلاً: قرص زینوورا">
                 </div>
-                <div class="col-md-4">
-                    <label class="form-label small">نام متریال / ماده اولیه:</label>
-                    <input type="text" id="materialName" class="form-control form-control-sm" required>
+                <div class="col-md-3">
+                    <label class="form-label">شماره سفارش (Order):</label>
+                    <input type="text" id="orderNo" class="form-control" required>
                 </div>
-                <div class="col-md-4">
-                    <label class="form-label small">کد آرتیکل (Material Code):</label>
-                    <input type="text" id="materialCode" class="form-control form-control-sm" required>
+                <div class="col-md-3">
+                    <label class="form-label">شماره سری ساخت (Batch):</label>
+                    <input type="text" id="batchNo" class="form-control" required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">کد ماده اولیه:</label>
+                    <input type="text" id="rawMaterialCode" class="form-control" required>
+                </div>
+            </div>
+            <div class="row row-gap">
+                <div class="col-md-6">
+                    <label class="form-label">نام ماده اولیه (موضوع توزین):</label>
+                    <input type="text" id="rawMaterialName" class="form-control" required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">تعداد کل پک‌ها:</label>
+                    <input type="number" id="totalPacks" class="form-control" required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">وزن کل (Kg):</label>
+                    <input type="number" step="0.001" id="totalWeight" class="form-control" required>
                 </div>
             </div>
 
-            <!-- بخش ۲: زمان‌سنجی مراحل فرآیند -->
-            <div class="section-header">۲. ثبت زمان‌های فرآیندی (ساعت دقیق)</div>
-            <div class="row g-2">
-                <div class="col-6 col-md-3">
-                    <label class="form-label small">شروع آماده‌سازی:</label>
-                    <input type="time" id="tPrepStart" class="form-control form-control-sm" required>
+            <!-- بخش ۲: مراحل زمانی دقیق -->
+            <div class="section-title">۲. گام‌های زمانی (Time Log)</div>
+            
+            <div class="row row-gap">
+                <div class="col-md-3">
+                    <label class="form-label text-primary">شروع آماده‌سازی (تحویل از انبار):</label>
+                    <input type="time" id="tStartPrep" class="form-control" required>
                 </div>
-                <div class="col-6 col-md-3">
-                    <label class="form-label small">پایان آماده‌سازی:</label>
-                    <input type="time" id="tPrepEnd" class="form-control form-control-sm" required>
+                <div class="col-md-3">
+                    <label class="form-label text-primary">پایان آماده‌سازی:</label>
+                    <input type="time" id="tEndPrep" class="form-control" required>
                 </div>
-                <div class="col-6 col-md-3">
-                    <label class="form-label small">شروع نمونه‌برداری/QC:</label>
-                    <input type="time" id="tQcStart" class="form-control form-control-sm">
+                <div class="col-md-3">
+                    <label class="form-label text-success">ورود به اتاق توزین:</label>
+                    <input type="time" id="tEnterRoom" class="form-control" required>
                 </div>
-                <div class="col-6 col-md-3">
-                    <label class="form-label small">تایید QC:</label>
-                    <input type="time" id="tQcEnd" class="form-control form-control-sm">
-                </div>
-            </div>
-
-            <div class="row g-2 mt-1">
-                <div class="col-6 col-md-3">
-                    <label class="form-label small">شروع عملیات توزین:</label>
-                    <input type="time" id="tWeighStart" class="form-control form-control-sm" required>
-                </div>
-                <div class="col-6 col-md-3">
-                    <label class="form-label small">پایان عملیات توزین:</label>
-                    <input type="time" id="tWeighEnd" class="form-control form-control-sm" required>
-                </div>
-                <div class="col-6 col-md-3">
-                    <label class="form-label small">شروع نظافت/Line Clearance:</label>
-                    <input type="time" id="tCleanStart" class="form-control form-control-sm">
-                </div>
-                <div class="col-6 col-md-3">
-                    <label class="form-label small">پایان نظافت:</label>
-                    <input type="time" id="tCleanEnd" class="form-control form-control-sm">
+                <div class="col-md-3">
+                    <label class="form-label text-success">پایان ست‌آپ دستگاه/ترازو:</label>
+                    <input type="time" id="tEndSetup" class="form-control" required>
                 </div>
             </div>
 
-            <!-- بخش ۳: توضیحات و انحرافات -->
-            <div class="section-header">۳. توضیحات و توقفات (اختیاری)</div>
+            <div class="row row-gap border-top pt-3">
+                <div class="col-md-3">
+                    <label class="form-label text-danger">شروع توزین (پک اول):</label>
+                    <input type="time" id="tStartWeighing" class="form-control" required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label text-danger">پایان توزین (آخرین پک):</label>
+                    <input type="time" id="tEndWeighing" class="form-control" required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">شروع نمونه‌برداری QC:</label>
+                    <input type="time" id="tStartQC" class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">پایان تاییدیه QC:</label>
+                    <input type="time" id="tEndQC" class="form-control">
+                </div>
+            </div>
+
+            <div class="row row-gap border-top pt-3">
+                <div class="col-md-3">
+                    <label class="form-label text-warning">شروع نظافت (Cleaning):</label>
+                    <input type="time" id="tStartClean" class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label text-warning">پایان نظافت و ترخیص:</label>
+                    <input type="time" id="tEndClean" class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label text-info">زمان انتقال به مرحله بعد:</label>
+                    <input type="time" id="tTransfer" class="form-control">
+                </div>
+            </div>
+
+            <!-- بخش ۳: جزئیات عملیاتی و انحرافات -->
+            <div class="section-title">۳. جزئیات فنی و توقفات</div>
+            <div class="row row-gap">
+                <div class="col-md-4">
+                    <label class="form-label">نوع ظرف (Packaging):</label>
+                    <select id="containerType" class="form-select">
+                        <option value="کیسه">کیسه / بگ</option>
+                        <option value="بشکه">بشکه (Drum)</option>
+                        <option value="گالن">گالن / ظرف پلاستیکی</option>
+                        <option value="سایر">سایر</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">وضعیت فیزیکی ماده:</label>
+                    <select id="physicalState" class="form-select">
+                        <option value="پودر معمولی">پودر معمولی</option>
+                        <option value="پودر میکرونیزه">پودر میکرونیزه (غبارزا)</option>
+                        <option value="مایع/ویسکوز">مایع / ویسکوز (چسبنده)</option>
+                        <option value="حساس">حساس به نور/رطوبت</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">مدت توقف/تاخیر (دقیقه):</label>
+                    <input type="number" id="delayMinutes" class="form-control" value="0">
+                </div>
+            </div>
+
             <div class="mb-3">
-                <textarea id="notes" class="form-control form-control-sm" rows="2" placeholder="علت تأخیر، ویسکوزیته بالای ماده، تعویض پک و..."></textarea>
+                <label class="form-label">علت توقف یا توضیحات خاص (Deviation Notes):</label>
+                <textarea id="notes" class="form-control" rows="3" placeholder="مثلاً: نقص فنی ترازو، قطعی سیستم، ویسکوزیته بسیار بالا و نیاز به گرم کردن و ..."></textarea>
             </div>
 
-            <div id="submitStatus" class="alert d-none py-2 text-center small mb-3"></div>
+            <div id="msgBox" class="alert d-none text-center"></div>
 
-            <button type="submit" id="submitBtn" class="btn btn-success w-100 py-2">
-                ثبت و ارسال به دیتابیس شیت
-            </button>
+            <div class="d-grid mt-4">
+                <button type="submit" id="btnSubmit" class="btn btn-success btn-lg">ثبت نهایی و ارسال به Google Sheet</button>
+            </div>
         </form>
     </div>
 
     <script>
-        // پایگاه داده کاربران محلی
-        const USERS_DB = {
-            "101": { pass: "1234", name: "میثم (سرپرست انبار)" },
-            "102": { pass: "1234", name: "اپراتور توزین ۱" },
-            "103": { pass: "1234", name: "اپراتور توزین ۲" }
+        const USERS = {
+            "101": { name: "میثم (سرپرست)", pass: "1234" },
+            "102": { name: "اپراتور ۱", pass: "1234" },
+            "103": { name: "اپراتور ۲", pass: "1234" }
         };
 
-        let currentOperator = null;
+        let activeUser = "";
 
-        // تابع ورود
         function login() {
-            const userInp = document.getElementById("username").value.trim();
-            const passInp = document.getElementById("password").value.trim();
-            const errAlert = document.getElementById("loginError");
-
-            if (USERS_DB[userInp] && USERS_DB[userInp].pass === passInp) {
-                currentOperator = USERS_DB[userInp].name;
-                errAlert.classList.add("d-none");
+            const u = document.getElementById("username").value;
+            const p = document.getElementById("password").value;
+            if(USERS[u] && USERS[u].pass === p) {
+                activeUser = USERS[u].name;
                 document.getElementById("loginSection").classList.add("d-none");
                 document.getElementById("formSection").classList.remove("d-none");
-                document.getElementById("operatorDisplay").innerText = currentOperator;
+                document.getElementById("opNameDisplay").innerText = "اپراتور: " + activeUser;
             } else {
-                errAlert.classList.remove("d-none");
+                document.getElementById("loginError").classList.remove("d-none");
             }
         }
 
-        // تابع خروج
         function logout() {
-            currentOperator = null;
-            document.getElementById("username").value = "";
-            document.getElementById("password").value = "";
-            document.getElementById("formSection").classList.add("d-none");
-            document.getElementById("loginSection").classList.remove("d-none");
+            location.reload();
         }
 
-        // آدرس Google Apps Script
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz_YOUR_REAL_DEPLOYMENT_ID/exec";
+        // آدرس اسکریپت خودت رو اینجا بذار
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzHidMYb-JBYmpBTdhy3Le68-vaqtNwrD-M9IcOYw8AYeBVNKC6CG4tsbavsDFAJxH9hw/exec";
 
-        // تابع ارسال داده
         async function submitData(e) {
             e.preventDefault();
-            const submitBtn = document.getElementById("submitBtn");
-            const statusDiv = document.getElementById("submitStatus");
-
-            submitBtn.disabled = true;
-            submitBtn.innerText = "در حال ارسال اطلاعات...";
-            statusDiv.className = "alert alert-info py-2 text-center small";
-            statusDiv.innerText = "ارتباط با سرور در حال برقراری است...";
-            statusDiv.classList.remove("d-none");
-
-            const payload = {
-                operator: currentOperator,
+            const btn = document.getElementById("btnSubmit");
+            const msg = document.getElementById("msgBox");
+            
+            btn.disabled = true;
+            btn.innerText = "در حال ارسال به دیتابیس...";
+            
+            const data = {
+                operator: activeUser,
+                finalProduct: document.getElementById("finalProduct").value,
+                orderNo: document.getElementById("orderNo").value,
                 batchNo: document.getElementById("batchNo").value,
-                materialName: document.getElementById("materialName").value,
-                materialCode: document.getElementById("materialCode").value,
-                prepStart: document.getElementById("tPrepStart").value,
-                prepEnd: document.getElementById("tPrepEnd").value,
-                qcStart: document.getElementById("tQcStart").value,
-                qcEnd: document.getElementById("tQcEnd").value,
-                weighStart: document.getElementById("tWeighStart").value,
-                weighEnd: document.getElementById("tWeighEnd").value,
-                cleanStart: document.getElementById("tCleanStart").value,
-                cleanEnd: document.getElementById("tCleanEnd").value,
+                rawMaterialCode: document.getElementById("rawMaterialCode").value,
+                rawMaterialName: document.getElementById("rawMaterialName").value,
+                totalPacks: document.getElementById("totalPacks").value,
+                totalWeight: document.getElementById("totalWeight").value,
+                tStartPrep: document.getElementById("tStartPrep").value,
+                tEndPrep: document.getElementById("tEndPrep").value,
+                tEnterRoom: document.getElementById("tEnterRoom").value,
+                tEndSetup: document.getElementById("tEndSetup").value,
+                tStartWeighing: document.getElementById("tStartWeighing").value,
+                tEndWeighing: document.getElementById("tEndWeighing").value,
+                tStartQC: document.getElementById("tStartQC").value,
+                tEndQC: document.getElementById("tEndQC").value,
+                tStartClean: document.getElementById("tStartClean").value,
+                tEndClean: document.getElementById("tEndClean").value,
+                tTransfer: document.getElementById("tTransfer").value,
+                containerType: document.getElementById("containerType").value,
+                physicalState: document.getElementById("physicalState").value,
+                delayMinutes: document.getElementById("delayMinutes").value,
                 notes: document.getElementById("notes").value,
-                timestamp: new Date().toISOString()
+                submitDate: new Date().toLocaleDateString('fa-IR')
             };
 
             try {
+                // ارسال به گوگل شیت
                 await fetch(SCRIPT_URL, {
                     method: "POST",
                     mode: "no-cors",
+                    cache: "no-cache",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify(data)
                 });
 
-                statusDiv.className = "alert alert-success py-2 text-center small";
-                statusDiv.innerText = "اطلاعات با موفقیت ثبت شد ✅";
+                msg.className = "alert alert-success text-center";
+                msg.innerText = "اطلاعات با موفقیت در اکسل مرکزی ثبت شد. ✅";
+                msg.classList.remove("d-none");
                 document.getElementById("timeStudyForm").reset();
-            } catch (err) {
-                statusDiv.className = "alert alert-danger py-2 text-center small";
-                statusDiv.innerText = "خطا در ارتباط با سرور گوگل! لطفاً اینترنت را بررسی کنید.";
+                window.scrollTo(0,0);
+            } catch (error) {
+                msg.className = "alert alert-danger text-center";
+                msg.innerText = "خطا در ارسال! اینترنت را چک کنید.";
+                msg.classList.remove("d-none");
             } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerText = "ثبت و ارسال به دیتابیس شیت";
+                btn.disabled = false;
+                btn.innerText = "ثبت نهایی و ارسال به Google Sheet";
             }
         }
     </script>
