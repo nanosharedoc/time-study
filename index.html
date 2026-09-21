@@ -1,205 +1,108 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Time Study System - Pharma Warehouse</title>
+  <title>سامانه جامع زمان‌سنجی انبار داروسازی</title>
   
   <style>
     :root {
-      --primary: #1e3a8a;
-      --bg: #f8fafc;
-      --card: #ffffff;
-      --border: #cbd5e1;
-      --disabled: #f1f5f9;
+      --primary-color: #1e3a8a;
+      --primary-light: #3b82f6;
+      --accent-color: #10b981;
+      --bg-color: #f1f5f9;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #cbd5e1;
+      --disabled-bg: #e2e8f0;
     }
 
-    body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg); margin: 0; padding: 20px; direction: rtl; text-align: right; }
-    .container { max-width: 1000px; margin: 0 auto; background: var(--card); border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); padding: 25px; }
+    * { box-sizing: border-box; font-family: system-ui, -apple-system, "Segoe UI", Roboto, Tahoma, sans-serif; }
+    body { background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 20px; direction: rtl; }
+    .container { max-width: 1050px; margin: 0 auto; background: var(--card-bg); border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); padding: 30px; }
     
-    h1 { color: var(--primary); text-align: center; border-bottom: 2px solid #eee; padding-bottom: 15px; margin-bottom: 25px; font-size: 1.5rem; }
+    .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #e2e8f0; padding-bottom: 20px; }
+    .header h1 { margin: 0; color: var(--primary-color); font-size: 1.7rem; }
+    .header p { margin: 5px 0 0; color: var(--text-muted); font-size: 0.95rem; }
 
-    fieldset { border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-bottom: 20px; background: #fafafa; }
-    legend { font-weight: bold; color: var(--primary); padding: 0 10px; }
+    fieldset { border: 1px solid var(--border-color); border-radius: 10px; padding: 20px; margin-bottom: 25px; background: #fafafa; }
+    legend { font-weight: bold; color: var(--primary-color); padding: 0 10px; font-size: 1.05rem; }
 
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
-    .form-group { display: flex; flex-direction: column; margin-bottom: 10px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+
+    .form-group { display: flex; flex-direction: column; }
+    label { font-size: 0.); border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); padding: 30px; }
     
-    label { font-size: 0.85rem; font-weight: 600; margin-bottom: 5px; color: #444; }
-    .required::after { content: " *"; color: red; }
+    .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #e2e8f0; padding-bottom: 20px; }
+    .header h1 { margin: 0; color: var(--primary-color); font-size: 1.7rem; }
+    .header p { margin: 5px 0 0; color: var(--text-muted); font-size: 0.95rem; }
+
+    fieldset { border: 1px solid var(--border-color); border-radius: 10px; padding: 20px; margin-bottom: 25px; background: #fafafa; }
+    legend { font-weight: bold; color: var(--primary-color); padding: 0 10px; font-size: 1.05rem; }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+
+    .form-group { display: flex; flex-direction: column; }
+    label { font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; color: #334155; }
+    .required::after { content: " *"; color: #ef4444; font-weight: bold; }
 
     input, select {
-      padding: 10px;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      font-size: 0.9rem;
-    }
-
-    input:focus { border-color: #3b82f6; outline: none; box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
-    input:disabled, select:disabled { background-color: var(--disabled); cursor: not-allowed; }
+      padding: 10px 12px;
+      border: 1.5px solid var(--border-color);
+ var(--primary-color); }
+    .calculated-box span { font-size: 1.1rem; font-weight: bold; color: #1e3a8a; display: block; margin-top: 4px; }
 
     .btn-submit {
-      width: 100%; background: var(--primary); color: white; border: none; padding: 15px;
-      font-size: 1rem; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 10px;
+      width: 100%;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 14px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 10px;
     }
     .btn-submit:hover { background: #1d4ed8; }
+    .btn-submit:disabled { background: #94a3b8; cursor: not-allowed; }
 
-    .alert { display: none; padding: 15px; border-radius: 6px; margin-bottom: 20px; text-align: center; font-weight: bold; }
-    .alert-success { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
-    .alert-error { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
-
-    .calc-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 10px; }
-    .calc-box { background: #eff6ff; padding: 10px; border-radius: 6px; text-align: center; border: 1px dashed #3b82f6; }
-    .calc-box span { display: block; font-weight: bold; color: #1e3a8a; }
+    .alert { display: none; padding: 12px 16px; border-radius: 8px; margin-bottom: 20px; font-weight: 500; }
+    .alert-success { background-color: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; }
+    .alert-error { background-color: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <h1>سامانه زمان‌سنجی انبار (نسخه میلادی)</h1>
+  <div class="header">
+    <h1>سامانه زمان‌سنجی انبار و توزین داروسازی</h1>
+    <p>ثبت دقیق پارامترهای فرآیندی و محاسبات خط زمانی تولید (تقویم میلادی)</p>
+  </div>
 
   <div id="alertBox" class="alert"></div>
 
   <form id="timeStudyForm">
+    <!-- بخش اطلاعات پایه -->
     <fieldset>
-      <legend>اطلاعات پایه</legend>
+      <legend>اطلاعات پایه و مشخصات عملیات</legend>
       <div class="grid">
         <div class="form-group">
-          <label class="required">تاریخ عملیات (Gregorian)</label>
-          <input type="date" id="date" name="date" required>
+          <label class="required">تاریخ عملیات (میلادی)</label>
+          <input type="date" id="dateInput" name="date" required>
         </div>
+
         <div class="form-group">
-          <label class="required">نوع فرآیند</label>
-          <select name="processType" id="processType" required onchange="handleProcessTypeChange()">
+          <label class="required">محل انجام عملیات (اتاق/انبار)</label>
+          <select name="location" required>
             <option value="">-- انتخاب کنید --</option>
-            <option value="توزین مواد اولیه">توزین مواد اولیه</option>
-            ; border: 1px solid #bbf7d0; }
-    .alert-error { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
-
-    .calc-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 10px; }
-    .calc-box { background: #eff6ff; padding: 10px; border-radius: 6px; text-align: center; border: 1px dashed #3b82f6; }
-    .calc-box span { display: block; font-weight: bold; color: #1e3a8a; }
-  </style>
-</head>
-<body>
-
-<div class="container">
-  <h1>سامانه زمان‌سنجی انبار (نسخه میلادی)</h1>
-
-  <div id="alertBox" class="alert"></div>
-
-  <form id="timeStudyForm">
-    <fieldset>
-      <legend>اطلاعات پایه</legend>
-      <div class="grid">
-        <div class="form-group">
-          <label class="required">تاریخ عملیات (Gregorian)</label>
-          <input type="date" id="date" name="date" required>
-        </div>
-        <div class="form-group">
-          <label class="required">نوع فرآیند</label>
-          <select name="processType" id="processType" required onchange="handleProcessTypeChange()">
-            <option value="">-- انتخاب کنید --</option>
-            <option value="توزین مواد اولیه">توزین مواد اولیه</option>
-            <option value="توزین اقلام بسته‌بندی">توزین اقلام بسته‌بندی</option>
-            <option value="SUB&MAIN">SUB&MAIN</option>
-            <option value="تمیزکاری">تمیزکاری</option>
-            <option value="سایر">سایر</option>
+            <option value="کلین‌روم ۱ (توزین مواد موثره)">کلین‌روم ۱ (توزین مواد موثره)</option>
+            <option value="کلین‌روم ۲ (توزین جانبی)">کلین‌روم ۲ (توزین جانبی)</option>
+            <option value="انبار مرکزی مواد اولیه">انبار مرکزی مواد اولیه</option>
+            <option value="انبار ملزومات بسته‌بندی">انبار ملزومات بسته‌بندی</option>
+            <option value="انبار قرنطینه">انبار قرنطینه</option>
           </select>
-        </div>
-        <div class="form-group">
-          <label id="lblProductName">        <div class="form-group">
-          <label>نام کمکی اپراتور ۲</label>
-          <input type="text" name="opHelper2" id="opHelper2" disabled>
-        input type="time" name="prepEnd" id="prepEnd" class="calc"></div>
-        <div توقفات</legend>
-      <div class="grid">
-        <div class="form-group"><label>شروع آماده‌سازی</label><input type="time" name="prepStart" id="prepStart" class="calc"></div>
-        <div class="form-group"><label>پایان آماده‌سازی</label><input type="time" name="prepEnd" id="prepEnd" class="calc"></div>
-        <div class="form-group"><label>شروع فرآیند</label><input type="time" name="procStart" id="procStart" class="calc" required></div>
-        <div class="form-group"><label>پایان فرآیند</label><input type="time" name="procEnd" id="procEnd" class="calc" required></div>
-      </div>
-      <div class="calc-row">
-        <div class="calc-box">آماده‌سازی<span id="dispPrep">0</span></div>
-        <div class="calc-box">زمان کل<span id="dispProc">0</span></div>
-        <div class="calc-box">زمان مفید<span id="dispNet">0</span></div>
-      </div>
-    </fieldset>
-
-    <button type="submit" id="btnSubmit" class="btn-submit">ثبت در گوگل شیت</button>
-  </form>
-</div>
-
-<script>
-  // آدرس وب‌اپ خودت را اینجا بگذار
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzHidMYb-JBYmpBTdhy3Le68-vaqtNwrD-M9IcOYw8AYeBVNKC6CG4tsbavsDFAJxH9hw/exec"; 
-
-  function handleProcessTypeChange() {
-    const val = document.getElementById('processType').value;
-    const isSpecial = ['توزین مواد اولیه', 'توزین اقلام بسته‌بندی', 'SUB&MAIN'].includes(val);
-    const fields = ['productName', 'batchNo', 'batchSize'];
-    
-    fields.forEach(id => {
-      const el = document.getElementById(id);
-      el.disabled = !isSpecial;
-      if(!isSpecial) el.value = "";
-    });
-  }
-
-  function calculate() {
-    const getMin = (id) => {
-      const val = document.getElementById(id).value;
-      if(!val) return 0;
-      const [h, m] = val.split(':').map(Number);
-      return h * 60 + m;
-    };
-
-    const prep = getMin('prepEnd') - getMin('prepStart');
-    const total = getMin('procEnd') - getMin('procStart');
-    
-    document.getElementById('dispPrep').innerText = prep > 0 ? prep : 0;
-    document.getElementById('dispProc').innerText = total > 0 ? total : 0;
-    document.getElementById('dispNet').innerText = total > 0 ? total : 0;
-  }
-
-  document.querySelectorAll('.calc').forEach(el => el.addEventListener('input', calculate));
-
-  document.getElementById('timeStudyForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const btn = document.getElementById('btnSubmit');
-    const alertBox = document.getElementById('alertBox');
-    
-    btn.disabled = true;
-    btn.innerText = "در حال ارسال...";
-
-    const formData = new FormData(this);
-    const data = Object.fromEntries(formData.entries());
-    
-    // اضافه کردن مقادیر محاسباتی
-    data.durPrep = document.getElementById('dispPrep').innerText;
-    data.durProc = document.getElementById('dispProc').innerText;
-    data.durNet = document.getElementById('dispNet').innerText;
-
-    fetch(SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors', // برای رفع موقت مشکل فچ در برخی بروزرها
-      body: JSON.stringify(data)
-    })
-    .then(() => {
-      alertBox.style.display = "block";
-      alertBox.className = "alert alert-success";
-      alertBox.innerText = "داده‌ها با موفقیت ارسال شد (وضعیت No-Cors). لطفا شیت را چک کنید.";
-      this.reset();
-      btn.disabled = false;
-      btn.innerText = "ثبت در گوگل شیت";
-    })
-    .catch(err => {
-      alertBox.style.display = "block";
-      alertBox.className = "alert alert-error";
-      alertBox.innerText = "خطا: " + err.message;
-      btn.disabled = false;
-    });
-  });
-</script>
-</body>
-</html>
