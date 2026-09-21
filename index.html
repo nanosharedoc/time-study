@@ -3,47 +3,120 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>سامانه جامع زمان‌سنجی انبار داروسازی</title>
+  <title>سامانه زمان‌سنجی انبار داروسازی</title>
   
   <style>
     :root {
-      --primary-color: #1e3a8a;
+      --primary: #1e3a8a;
       --primary-hover: #1d4ed8;
-      --accent-color: #0d9488;
-      --bg-color: #f8fafc;
-      --card-bg: #ffffff;
-      --text-main: #0f172a;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --border: #cbd5e1;
+      --text: #0f172a;
       --text-muted: #64748b;
-      --border-color: #cbd5e1;
-      --disabled-bg: #f1f5f9;
-      --calculated-bg: #eff6ff;
+      --disabled: #f1f5f9;
+      --calc-bg: #eff6ff;
     }
 
-    * { box-sizing: border-box; font-family: system-ui, -apple-system, "Segoe UI", Roboto, Tahoma, sans-serif; }
-    body { background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 20px; direction: rtl; }
-    .container { max-width: 1100px; margin: 0 auto; background: var(--card-bg); border-radius: 14px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); padding: 30px; }
-    
-    .header { text-align: center; margin-bottom: 25px; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px; }
-    .header h1 { margin: 0 0 8px; color: var(--primary-color); font-size: 1.6rem; }
-    .header p { margin: 0; color: var(--text-muted); font-size: 0.9rem; }
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Tahoma, sans-serif;
+    }
 
-    fieldset { border: 1px solid var(--border-color); border-radius: 10px; padding: 20px; margin-bottom: 25px; background: #ffffff; }
-    legend { font-weight: bold; color: var(--primary-color); padding: 0 10px; font-size: 1.05rem; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 20px;
+      direction: rtl;
+    }
 
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; }
-    .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+    .container {
+      max-width: 1050px;
+      margin: 0 auto;
+      background: var(--card);
+      border-radius: 14px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      padding: 30px;
+    }
 
-    .form-group { display: flex; flex-direction: column; margin-bottom: 5px; }
-    label { font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; color: #334155; }
-    .required::after { content: " *"; color: #ef4444; font-weight: bold; }
+    .header {
+      text-align: center;
+      margin-bottom: 25px;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 15px;
+    }
+
+    .header h1 {
+      margin: 0 0 8px;
+      color: var(--primary);
+      font-size: 1.6rem;
+    }
+
+    .header p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    fieldset {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 25px;
+      background: #ffffff;
+    }
+
+    legend {
+      font-weight: bold;
+      color: var(--primary);
+      padding: 0 10px;
+      font-size: 1.05rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 15px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 8px;
+    }
+
+    label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #334155;
+    }
+
+    .required::after {
+      content: " *";
+      color: #ef4444;
+      font-weight: bold;
+    }
 
     input, select, textarea {
       padding: 10px 12px;
-      border: 1.5px solid var(--border-color);
+      border: 1.5px solid var(--border);
       border-radius: 6px;
       font-size: 0.9rem;
-      color: var(--text-main);
+      color: var(--text);
       background-color: #ffffff;
       outline: none;
       transition: border-color 0.2s, box-shadow 0.2s;
@@ -55,7 +128,7 @@
     }
 
     input:disabled, select:disabled {
-      background-color: var(--disabled-bg);
+      background-color: var(--disabled);
       border-color: #e2e8f0;
       color: #94a3b8;
       cursor: not-allowed;
@@ -65,7 +138,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-top: 10px;
+      margin-top: 8px;
       cursor: pointer;
       font-size: 0.85rem;
       font-weight: 600;
@@ -73,10 +146,10 @@
     }
 
     .checkbox-container input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
+      width: 17px;
+      height: 17px;
       cursor: pointer;
-      accent-color: var(--primary-color);
+      accent-color: var(--primary);
     }
 
     .calculated-row {
@@ -85,11 +158,11 @@
       gap: 15px;
       margin-top: 20px;
       padding-top: 15px;
-      border-top: 1px dashed var(--border-color);
+      border-top: 1px dashed var(--border);
     }
 
     .calc-card {
-      background: var(--calculated-bg);
+      background: var(--calc-bg);
       border: 1px solid #bfdbfe;
       border-radius: 8px;
       padding: 12px;
@@ -106,12 +179,12 @@
     .calc-card span {
       font-size: 1.3rem;
       font-weight: bold;
-      color: var(--primary-color);
+      color: var(--primary);
     }
 
     .btn-submit {
       width: 100%;
-      background: var(--primary-color);
+      background: var(--primary);
       color: #ffffff;
       border: none;
       padding: 14px;
@@ -123,8 +196,14 @@
       margin-top: 10px;
     }
 
-    .btn-submit:hover { background: var(--primary-hover); }
-    .btn-submit:disabled { background: #94a3b8; cursor: not-allowed; }
+    .btn-submit:hover {
+      background: var(--primary-hover);
+    }
+
+    .btn-submit:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
+    }
 
     .alert {
       display: none;
@@ -135,24 +214,34 @@
       text-align: center;
     }
 
-    .alert-success { background-color: #dcfce7; color: #15803d; border: 1px solid #86efac; }
-    .alert-error { background-color: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; }
+    .alert-success {
+      background-color: #dcfce7;
+      color: #15803d;
+      border: 1px solid #86efac;
+    }
+
+    .alert-error {
+      background-color: #fee2e2;
+      color: #b91c1c;
+      border: 1px solid #fca5a5;
+    }
   </style>
 </head>
 <body>
 
 <div class="container">
   <div class="header">
-    <h1>سامانه زمان‌سنجی انبار و توزین داروسازی</h1>
-    <p>ثبت دقیق داده‌های زمانی تولید، توزین و توقفات فرآیندی (فرمت تقویم میلادی)</p>
+    <h1>سامانه جامع زمان‌سنجی انبار و توزین</h1>
+    <p>ثبت شاخص‌های فرآیندی، محاسبات زمانی و توقفات خط تولید (تقویم میلادی)</p>
   </div>
 
   <div id="alertBox" class="alert"></div>
 
   <form id="timeStudyForm">
-    <!-- بخش ۱: اطلاعات پایه عملیات -->
+    
+    <!-- ۱. اطلاعات پایه و مشخصات عملیات -->
     <fieldset>
-      <legend>۱. اطلاعات پایه و مشخصات عملیات</legend>
+      <legend>۱. اطلاعات پایه و مشخصات فرآیند</legend>
       <div class="grid">
         <div class="form-group">
           <label class="required">تاریخ عملیات (میلادی)</label>
@@ -165,7 +254,7 @@
             <option value="">-- انتخاب کنید --</option>
             <option value="کلین‌روم ۱ (توزین مواد موثره)">کلین‌روم ۱ (توزین مواد موثره)</option>
             <option value="کلین‌روم ۲ (توزین جانبی)">کلین‌روم ۲ (توزین جانبی)</option>
-            <option value="انبار مواد اولیه">انبار مواد اولیه</option>
+            <option value="انبار مرکزی مواد اولیه">انبار مرکزی مواد اولیه</option>
             <option value="انبار ملزومات بسته‌بندی">انبار ملزومات بسته‌بندی</option>
             <option value="انبار قرنطینه">انبار قرنطینه</option>
             <option value="انبار محصول نهایی">انبار محصول نهایی</option>
@@ -178,52 +267,46 @@
           <select name="shift" required>
             <option value="">-- انتخاب کنید --</option>
             <option value="صبح">صبح</option>
-            <option value</style>
-</head>
-<body>
+            <option value="عصر">عصر</option>
+            <option value="شب">شب</option>
+          </select>
+        </div>
 
-<div class="container">
-  <div class="header">
-    <h1>سامانه زمان‌سنجی انبار و توزین داروسازی</h1>
-    <p>ثبت دقیق داده‌های زمانی تولید، توزین و توقفات فرآیندی (فرمت تقویم میلادی)</p>
-  </div>
+        <div class="form-group">
+          <label class="required">نوع فرآیند</label>
+          <select name="processType" id="processType" required onchange="handleProcessTypeChange()">
+            <option value="">-- انتخاب کنید --</option>
+            <option value="توزین مواد اولیه">توزین مواد اولیه</option>
+            <option value="توزین اقلام بسته‌بندی">توزین اقلام بسته‌بندی</option>
+            <option value="SUB&MAIN">SUB&MAIN</option>
+            <option value="تمیزکاری">تمیزکاری</option>
+            <option value="سایر">سایر</option>
+          </select>
+        </div>
 
-  <div id="alertBox" class="alert"></div>
+        <div class="form-group">
+          <label id="lblProductName">نام محصول</label>
+          <input type="text" name="productName" id="productName" placeholder="نام محصول" disabled>
+        </div>
 
-  <form id="timeStudyForm">
-    <!-- بخش ۱: اطلاعات پایه عملیات -->
+        <div class="form-group">
+          <label id="lblBatchNo">شماره بچ (Batch No)</label>
+          <input type="text" name="batchNo" id="batchNo" placeholder="مثال: B2024-01" disabled>
+        </div>
+
+        <div class="form-group">
+          <label id="lblBatchSize">اندازه بچ (Batch Size)</label>
+          <input type="number" step="any" name="batchSize" id="batchSize" placeholder="مقدار عددی" disabled>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- ۲. پرسنل و اپراتورها -->
     <fieldset>
-      <legend>۱. اطلاعات پایه و مشخصات عملیات</legend>
-      <div class="grid">
-        <div class="form-group">
-          <label class="required">تاریخ عملیات (میلادی)</label>
-          <input type="date" id="dateInput" name="date" required>
-        </div>
-
-        <div class="form-group">
-          <label class="required">محل انجام عملیات</label>
-          <select name="location" required>
-            <option value="">-- انتخاب کنید --</option>
-            <option value="کلین‌روم ۱ (توزین مواد موثره)">کلین‌روم ۱ (توزین مواد موثره)</option>
-            <option value="کلین‌روم ۲ (توزین جانبی)">کلین‌روم ۲ (توزین جانبی)</option>
-            <option value="انبار مواد اولیه">انبار مواد اولیه</option>
-            <option value="انبار ملزومات بسته‌بندی">انبار ملزومات بسته‌بندی</option>
-            <option value="انبار قرنطینه">انبار قرنطینه</option>
-            <option value="انبار محصول نهایی">انبار محصول نهایی</option>
-            <option value="سایر">سایر</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label class="required">شیفت کاری</label>
-          <select name="shift" required>
-            <option value="">-- انتخاب کنید --</option>
-            <option value="صبح">صبح</option>
-            <option value>
       <legend>۲. پرسنل و اپراتورهای حاضر</legend>
       <div class="grid">
         <div class="form-group">
-          <label class="required">اپراتور ۱ (مسئول اصلی)</label>
+          <label class="required">اپراتور ۱ (اصلی)</label>
           <select name="operator1" required>
             <option value="">-- انتخاب اپراتور --</option>
             <option value="علی احمدی">علی احمدی</option>
@@ -239,7 +322,7 @@
 
         <div class="form-group">
           <label>نام کمکی اپراتور ۱</label>
-          <input type="text" name="opHelper1" id="opHelper1" placeholder="نام کمکی" disabled>
+          <input type="text" name="opHelper1" id="opHelper1" placeholder="نام نیروی کمکی ۱" disabled>
         </div>
 
         <div class="form-group">
@@ -259,24 +342,24 @@
 
         <div class="form-group">
           <label>نام کمکی اپراتور ۲</label>
-          <input type="text" name="opHelper2" id="opHelper2" placeholder="نام کمکی" disabled>
+          <input type="text" name="opHelper2" id="opHelper2" placeholder="نام نیروی کمکی ۲" disabled>
         </div>
 
         <div class="form-group">
           <label>سرپرست / ناظر شیفت</label>
-          <input type="text" name="supervisor" placeholder="نام سرپرست انبار">
+          <input type="text" name="supervisor" placeholder="نام سرپرست">
         </div>
 
         <div class="form-group">
           <label>ناظر کیفی (QC / IPQC)</label>
-          <input type="text" name="qcInspector" placeholder="نام بازرس کیفیت">
+          <input type="text" name="qcInspector" placeholder="نام ناظر کیفیت">
         </div>
       </div>
     </fieldset>
 
-    <!-- بخش ۳: زمان‌سنجی فرآیند و توقفات -->
+    <!-- ۳. خط زمانی فرآیند و توقفات -->
     <fieldset>
-      <legend>۳. زمان‌سنجی خط فرآیند و توقفات</legend>
+      <legend>۳. زمان‌سنجی فرآیند و توقفات (تایم استادی)</legend>
       <div class="grid-4">
         <div class="form-group">
           <label>شروع آماده‌سازی (Line Clearance)</label>
@@ -296,8 +379,11 @@
         </div>
       </div>
 
-      <div style="margin-top: 15px; border-top: 1px dashed var(--border-color); padding-top: 15px;">
-        <label style="font-weight: bold; color: var(--primary-color); display: block; margin-bottom: 10px;">ثبت دقیق توقفات حین فرآیند (Down Times):</label>
+      <!-- توقفات -->
+      <div style="margin-top: 15px; border-top: 1px dashed var(--border); padding-top: 15px;">
+        <label style="font-weight: bold; color: var(--primary); display: block; margin-bottom: 10px;">ثبت توقفات حین کار (Down Times):</label>
+        
+        <!-- توقف ۱ -->
         <div class="grid">
           <div class="form-group">
             <label>شروع توقف ۱</label>
@@ -309,10 +395,11 @@
           </div>
           <div class="form-group" style="grid-column: span 2;">
             <label>علت توقف ۱</label>
-            <input type="text" name="stop1Reason" placeholder="علت (مثال: قطع برق، نقص ترازو، انتظار بچ رکورد)">
+            <input type="text" name="stop1Reason" placeholder="مثال: اشکال در ترازو، تأخیر در دریافت بچ رکورد">
           </div>
         </div>
 
+        <!-- توقف ۲ -->
         <div class="grid" style="margin-top: 10px;">
           <div class="form-group">
             <label>شروع توقف ۲</label>
@@ -328,6 +415,7 @@
           </div>
         </div>
 
+        <!-- توقف ۳ -->
         <div class="grid" style="margin-top: 10px;">
           <div class="form-group">
             <label>شروع توقف ۳</label>
@@ -344,25 +432,26 @@
         </div>
       </div>
 
-      <div style="margin-top: 15px; border-top: 1px dashed var(--border-color); padding-top: 15px;">
-        <label style="font-weight: bold; color: var(--primary-color); display: block; margin-bottom: 10px;">زمان‌های جانبی (کنترل کیفی، تحویل و انتظار):</label>
+      <!-- زمان‌های جانبی -->
+      <div style="margin-top: 15px; border-top: 1px dashed var(--border); padding-top: 15px;">
+        <label style="font-weight: bold; color: var(--primary); display: block; margin-bottom: 10px;">زمان‌های جانبی (دقیقه):</label>
         <div class="grid-3">
           <div class="form-group">
-            <label>مدت زمان حضور و چک QC (دقیقه)</label>
+            <label>مدت زمان حضور و چک QC</label>
             <input type="number" step="any" name="qcDuration" id="qcDuration" placeholder="دقیقه">
           </div>
           <div class="form-group">
-            <label>مدت انتقال به بخش ساخت (دقیقه)</label>
+            <label>مدت انتقال به بخش ساخت</label>
             <input type="number" step="any" name="transferDuration" id="transferDuration" placeholder="دقیقه">
           </div>
           <div class="form-group">
-            <label>مدت معطلی در باجه انتظار (دقیقه)</label>
+            <label>مدت معطلی در باجه انتظار (Staging)</label>
             <input type="number" step="any" name="stagingWaitDuration" id="stagingWaitDuration" placeholder="دقیقه">
           </div>
         </div>
       </div>
 
-      <!-- مقادیر محاسباتی اتوماتیک -->
+      <!-- باکس‌های محاسباتی -->
       <div class="calculated-row">
         <div class="calc-card">
           <label>مدت آماده‌سازی (دقیقه)</label>
@@ -383,116 +472,115 @@
       </div>
     </fieldset>
 
-    <!-- بخش ۴: توضیحات تکمیلی -->
+    <!-- ۴. توضیحات و انحرافات -->
     <fieldset>
-      <legend>۴. توضیحات و مغایرت‌ها (Deviations)</legend>
+      <legend>۴. توضیحات و مغایرت‌ها (Remarks & Deviations)</legend>
       <div class="form-group">
-        <label>توضیحات تکمیلی، شرایط محیطی یا هرگونه رویداد خاص</label>
-        <textarea name="remarks" rows="3" placeholder="در صورت بروز هرگونه انحراف از استاندارد یا نیاز به ثبت جزئیات بیشتر بنویسید..."></textarea>
+        <label>توضیحات تکمیلی یا هرگونه رویداد خارج از استاندارد</label>
+        <textarea name="remarks" rows="3" placeholder="توضیحات مربوط به شرایط محیطی، مغایرت در بچ یا هر نکته ضروری..."></textarea>
       </div>
     </fieldset>
 
-    <button type="submit" id="btnSubmit" class="btn-submit">ثبت نهایی و ارسال به گوگل شیت</button>
+    <button type="submit" id="btnSubmit" class="btn-submit">ثبت نهایی در گوگل‌شیت</button>
   </form>
 </div>
 
 <script>
-  // لینک وب‌اپ گوگل اپس اسکریپت خودت را اینجا قرار بده
+  // آدرس وب‌اپ گوگل‌اسکریپت خود را در خط زیر قرار دهید
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzHidMYb-JBYmpBTdhy3Le68-vaqtNwrD-M9IcOYw8AYeBVNKC6CG4tsbavsDFAJxH9hw/exec";
 
-  // تنظیم پیش‌فرض تاریخ روی امروز (میلادی)
+  // مقداردهی تاریخ امروز بر اساس تقویم میلادی
   document.addEventListener('DOMContentLoaded', () => {
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('dateInput').value = today;
   });
 
-  // کنترل فیلدهای مشروط به نوع فرآیند
+  // کنترل فعال/غیرفعال بودن فیلدهای نام محصول، شماره بچ و اندازه بچ
   function handleProcessTypeChange() {
     const val = document.getElementById('processType').value;
     const isSpecial = ['توزین مواد اولیه', 'توزین اقلام بسته‌بندی', 'SUB&MAIN'].includes(val);
-    const targetFields = ['productName', 'batchNo', 'batchSize'];
+    const fields = ['productName', 'batchNo', 'batchSize'];
 
-    targetFields.forEach(fieldId => {
-      const el = document.getElementById(fieldId);
-      const label = document.getElementById('lbl' + fieldId.charAt(0).toUpperCase() + fieldId.slice(1));
+    fields.forEach(fId => {
+      const el = document.getElementById(fId);
+      const lbl = document.getElementById('lbl' + fId.charAt(0).toUpperCase() + fId.slice(1));
       
       el.disabled = !isSpecial;
       el.required = isSpecial;
       if (!isSpecial) {
         el.value = '';
-        if (label) label.classList.remove('required');
+        if (lbl) lbl.classList.remove('required');
       } else {
-        if (label) label.classList.add('required');
+        if (lbl) lbl.classList.add('required');
       }
     });
   }
 
-  // کنترل فیلد نیروهای کمکی
-  function toggleHelper(index) {
-    const chk = document.getElementById('hasHelper' + index);
-    const input = document.getElementById('opHelper' + index);
+  // فعال/غیرفعال کردن فیلدهای نیروی کمکی
+  function toggleHelper(idx) {
+    const chk = document.getElementById('hasHelper' + idx);
+    const input = document.getElementById('opHelper' + idx);
     input.disabled = !chk.checked;
     if (!chk.checked) input.value = '';
   }
 
   // تبدیل فرمت HH:MM به دقیقه
-  function timeToMinutes(val) {
-    if (!val) return 0;
-    const parts = val.split(':');
-    return parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
+  function toMinutes(t) {
+    if (!t) return 0;
+    const [h, m] = t.split(':').map(Number);
+    return h * 60 + m;
   }
 
-  // محاسبه تفاضل زمانی با احتساب عبور از نیمه‌شب
-  function diffMinutes(startVal, endVal) {
-    if (!startVal || !endVal) return 0;
-    let diff = timeToMinutes(endVal) - timeToMinutes(startVal);
-    if (diff < 0) diff += 1440; // اگر از ساعت ۲۴ عبور کرده باشد
-    return diff;
+  // محاسبه اختلاف زمانی با پشتیبانی از عبور نیمه‌شب
+  function diffMinutes(start, end) {
+    if (!start || !end) return 0;
+    let d = toMinutes(end) - toMinutes(start);
+    if (d < 0) d += 1440;
+    return d;
   }
 
-  // محاسبه خودکار زمان‌ها
-  function recalculateTimes() {
+  // محاسبه لحظه‌ای زمان‌ها
+  function calculateTimes() {
     const prep = diffMinutes(document.getElementById('prepStart').value, document.getElementById('prepEnd').value);
-    const totalProc = diffMinutes(document.getElementById('procStart').value, document.getElementById('procEnd').value);
+    const total = diffMinutes(document.getElementById('procStart').value, document.getElementById('procEnd').value);
 
-    const stop1 = diffMinutes(document.getElementById('stop1Start').value, document.getElementById('stop1End').value);
-    const stop2 = diffMinutes(document.getElementById('stop2Start').value, document.getElementById('stop2End').value);
-    const stop3 = diffMinutes(document.getElementById('stop3Start').value, document.getElementById('stop3End').value);
+    const s1 = diffMinutes(document.getElementById('stop1Start').value, document.getElementById('stop1End').value);
+    const s2 = diffMinutes(document.getElementById('stop2Start').value, document.getElementById('stop2End').value);
+    const s3 = diffMinutes(document.getElementById('stop3Start').value, document.getElementById('stop3End').value);
 
-    const totalStops = stop1 + stop2 + stop3;
-    let netProc = totalProc - totalStops;
-    if (netProc < 0) netProc = 0;
+    const totalStops = s1 + s2 + s3;
+    let net = total - totalStops;
+    if (net < 0) net = 0;
 
     document.getElementById('dispPrep').innerText = prep;
-    document.getElementById('dispTotal').innerText = totalProc;
+    document.getElementById('dispTotal').innerText = total;
     document.getElementById('dispStops').innerText = totalStops;
-    document.getElementById('dispNet').innerText = netProc;
+    document.getElementById('dispNet').innerText = net;
   }
 
-  // اعمال لیسنر روی تمام فیلدهای مربوط به زمان
-  document.querySelectorAll('.calc-input').forEach(input => {
-    input.addEventListener('input', recalculateTimes);
+  // اتصال شنونده رویداد به تمام ورودی‌های زمان
+  document.querySelectorAll('.calc-input').forEach(el => {
+    el.addEventListener('input', calculateTimes);
   });
 
-  // ارسال فرم با مدیریت خطای fetch و CORS
+  // ثبت و ارسال فرم
   document.getElementById('timeStudyForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const btn = document.getElementById('btnSubmit');
     const alertBox = document.getElementById('alertBox');
 
     btn.disabled = true;
-    btn.innerText = "در حال ارسال اطلاعات به سرور...";
+    btn.innerText = "در حال ارسال به گوگل‌شیت...";
 
     const formData = new FormData(this);
     const payload = Object.fromEntries(formData.entries());
 
-    // اضافه کردن مقادیر محاسباتی به خروجی
+    // تزریق فیلدهای محاسباتی به پی‌لود ارسالی
     payload.prepDuration = document.getElementById('dispPrep').innerText;
     payload.totalDuration = document.getElementById('dispTotal').innerText;
     payload.totalStops = document.getElementById('dispStops').innerText;
     payload.netDuration = document.getElementById('dispNet').innerText;
 
-    // ارسال به گوگل اپس اسکریپت با mode: 'no-cors' برای دور زدن محدودیت‌های CORS
     fetch(SCRIPT_URL, {
       method: 'POST',
       mode: 'no-cors',
@@ -505,26 +593,24 @@
     .then(() => {
       alertBox.style.display = "block";
       alertBox.className = "alert alert-success";
-      alertBox.innerText = "داده‌ها با موفقیت در گوگل‌شیت ثبت شدند.";
-      
+      alertBox.innerText = "اطلاعات با موفقیت در گوگل‌شیت ثبت گردید.";
+
       this.reset();
-      // برگرداندن تاریخ به حالت روز جاری
       document.getElementById('dateInput').value = new Date().toISOString().split('T')[0];
-      recalculateTimes();
+      calculateTimes();
       handleProcessTypeChange();
 
       btn.disabled = false;
-      btn.innerText = "ثبت نهایی و ارسال به گوگل شیت";
+      btn.innerText = "ثبت نهایی در گوگل‌شیت";
 
-      // پنهان شدن پیام پس از ۵ ثانیه
       setTimeout(() => { alertBox.style.display = 'none'; }, 5000);
     })
     .catch(err => {
       alertBox.style.display = "block";
       alertBox.className = "alert alert-error";
-      alertBox.innerText = "خطا در برقراری ارتباط با گوگل‌شیت: " + err.message;
+      alertBox.innerText = "خطا در ارسال داده‌ها: " + err.message;
       btn.disabled = false;
-      btn.innerText = "ثبت نهایی و ارسال به گوگل شیت";
+      btn.innerText = "ثبت نهایی در گوگل‌شیت";
     });
   });
 </script>
