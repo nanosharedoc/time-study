@@ -252,11 +252,11 @@
           <label class="required">محل انجام عملیات</label>
           <select name="location" required>
             <option value="">-- انتخاب کنید --</option>
-            <option value="کلین‌روم ۱ (توزین مواد موثره)">کلین‌روم ۱ (توزین مواد موثره)</option>
-            <option value="کلین‌روم ۲ (توزین جانبی)">کلین‌روم ۲ (توزین جانبی)</option>
-            <option value="انبار مرکزی مواد اولیه">انبار مرکزی مواد اولیه</option>
-            <option value="انبار ملزومات بسته‌بندی">انبار ملزومات بسته‌بندی</option>
-            <option value="انبار قرنطینه">انبار قرنطینه</option>
+            <option value="API 1">API 1</option>
+            <option value="API Samp">API Samp</option>
+            <option value="EXP 1">EXP 1</option>
+            <option value="EXP 2">EXP 2</option>
+            <option value="EXP Samp">EXP Samp</option>
             <option value="انبار محصول نهایی">انبار محصول نهایی</option>
             <option value="سایر">سایر</option>
           </select>
@@ -266,8 +266,7 @@
           <label class="required">شیفت کاری</label>
           <select name="shift" required>
             <option value="">-- انتخاب کنید --</option>
-            <option value="صبح">صبح</option>
-            <option value="عصر">عصر</option>
+            <option value="روز">روز</option>
             <option value="شب">شب</option>
           </select>
         </div>
@@ -279,8 +278,11 @@
             <option value="توزین مواد اولیه">توزین مواد اولیه</option>
             <option value="توزین اقلام بسته‌بندی">توزین اقلام بسته‌بندی</option>
             <option value="SUB&MAIN">SUB&MAIN</option>
-            <option value="تمیزکاری">تمیزکاری</option>
-            <option value="سایر">سایر</option>
+            <option value="تمیزکاری تجهیز">تمیزکاری تجهیز</option>
+            <option value="شستشوی اتاق">شستشوی اتاق</option>
+            <option value="نمونه برداری">نمونه برداری</option>
+            <option value="توزین درخواست">توزین درخواست</option>
+            <option value="شرکت های همکار">شرکت های همکار</option>
           </select>
         </div>
 
@@ -309,10 +311,13 @@
           <label class="required">اپراتور ۱ (اصلی)</label>
           <select name="operator1" required>
             <option value="">-- انتخاب اپراتور --</option>
-            <option value="علی احمدی">علی احمدی</option>
-            <option value="محمد رضایی">محمد رضایی</option>
-            <option value="حسین مرادی">حسین مرادی</option>
-            <option value="مهدی کاظمی">مهدی کاظمی</option>
+            <option value="کریمی پور">کریمی پور</option>
+            <option value="اسکندرزاده">اسکندرزاده</option>
+            <option value="پاشایی">پاشایی</option>
+            <option value="آبکتی">آبکتی</option>
+            <option value="فرجی">فرجی</option>
+            <option value="دشتی">دشتی</option>
+            <option value="حمزه خانی">حمزه خانی</option>
             <option value="سایر">سایر</option>
           </select>
           <label class="checkbox-container">
@@ -329,10 +334,13 @@
           <label>اپراتور ۲</label>
           <select name="operator2">
             <option value="">-- انتخاب اپراتور --</option>
-            <option value="علی احمدی">علی احمدی</option>
-            <option value="محمد رضایی">محمد رضایی</option>
-            <option value="حسین مرادی">حسین مرادی</option>
-            <option value="مهدی کاظمی">مهدی کاظمی</option>
+            <option value="کریمی پور">کریمی پور</option>
+            <option value="اسکندرزاده">اسکندرزاده</option>
+            <option value="پاشایی">پاشایی</option>
+            <option value="آبکتی">آبکتی</option>
+            <option value="فرجی">فرجی</option>
+            <option value="دشتی">دشتی</option>
+            <option value="حمزه خانی">حمزه خانی</option>
             <option value="سایر">سایر</option>
           </select>
           <label class="checkbox-container">
@@ -348,11 +356,6 @@
         <div class="form-group">
           <label>سرپرست / ناظر شیفت</label>
           <input type="text" name="supervisor" placeholder="نام سرپرست">
-        </div>
-
-        <div class="form-group">
-          <label>ناظر کیفی (QC / IPQC)</label>
-          <input type="text" name="qcInspector" placeholder="نام ناظر کیفیت">
         </div>
       </div>
     </fieldset>
