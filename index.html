@@ -1,152 +1,101 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>سامانه جامع زمان‌سنجی انبار داروسازی</title>
+  <title>Time Study System - Pharma Warehouse</title>
   
-  <!-- Persian Datepicker CDN -->
-  <link rel="stylesheet" href="https://unpkg.com/persian-datepicker@1.2.0/dist/css/persian-datepicker.min.css"/>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://unpkg.com/persian-date@1.1.0/dist/persian-date.min.js"></script>
-  <script src="https://unpkg.com/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
-
   <style>
     :root {
-      --primary-color: #1e3a8a;
-      --primary-light: #3b82f6;
-      --accent-color: #10b981;
-      --bg-color: #f1f5f9;
-      --card-bg: #ffffff;
-      --text-main: #0f172a;
-      --text-muted: #64748b;
-      --border-color: #cbd5e1;
-      --disabled-bg: #e2e8f0;
+      --primary: #1e3a8a;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --border: #cbd5e1;
+      --disabled: #f1f5f9;
     }
 
-    * { box-sizing: border-box; font-family: system-ui, -apple-system, "Segoe UI", Roboto, Tahoma, sans-serif; }
-    body { background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 20px; direction: rtl; }
-    .container { max-width: 1050px; margin: 0 auto; background: var(--card-bg); border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); padding: 30px; }
+    body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg); margin: 0; padding: 20px; direction: rtl; text-align: right; }
+    .container { max-width: 1000px; margin: 0 auto; background: var(--card); border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); padding: 25px; }
     
-    .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #e2e8f0; padding-bottom: 20px; }
-    .header h1 { margin: 0; color: var(--primary-color); font-size: 1.7rem; }
-    .header p { margin: 5px 0 0; color: var(--text-muted); font-size: 0.95rem; }
+    h1 { color: var(--primary); text-align: center; border-bottom: 2px solid #eee; padding-bottom: 15px; margin-bottom: 25px; font-size: 1.5rem; }
 
-    fieldset { border: 1px solid var(--border-color); border-radius: 10px; padding: 20px; margin-bottom: 25px; background: #fafafa; }
-    legend { font-weight: bold; color: var(--primary-color); padding: 0 10px; font-size: 1.05rem; }
+    fieldset { border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-bottom: 20px; background: #fafafa; }
+    legend { font-weight: bold; color: var(--primary); padding: 0 10px; }
 
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; }
-    .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
-
-    .form-group { display: flex; flex-direction: column; }
-    label { font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; color: #334155; }
-    .required::after { content: " *"; color: #ef4444; font-weight: bold; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+    .form-group { display: flex; flex-direction: column; margin-bottom: 10px; }
+    
+    label { font-size: 0.85rem; font-weight: 600; margin-bottom: 5px; color: #444; }
+    .required::after { content: " *"; color: red; }
 
     input, select {
-      padding: 10px 12px;
-      border: 1.5px solid var(--border-color);
-      border-radius: 8px;
-      outline: none;
-      font-size: 0.9rem;
-      background-color: #fff;
-      transition: all 0.2s;
-    }
-
-    input:focus, select:focus {
-      border-color: var(--primary-light);
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-    }
-
-    input:disabled, select:disabled {
-      background-color: var(--disabled-bg);
-      cursor: not-allowed;
-      opacity: 0.7;
-      border-color: #cbd5e1;
-    }
-
-    .checkbox-container {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 5px;
-      font-size: 0.8rem;
-      color: #475569;
-    }
-    .checkbox-container input { width: 16px; height: 16px; cursor: pointer; }
-
-    .calculated-box {
-      background: #eff6ff;
-      border: 1px dashed var(--primary-light);
-      border-radius: 8px;
       padding: 10px;
-      text-align: center;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.9rem;
     }
-    .calculated-box label { color: var(--primary-color); }
-    .calculated-box span { font-size: 1.1rem; font-weight: bold; color: #1e3a8a; display: block; margin-top: 4px; }
+
+    input:focus { border-color: #3b82f6; outline: none; box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
+    input:disabled, select:disabled { background-color: var(--disabled); cursor: not-allowed; }
 
     .btn-submit {
-      width: 100%;
-      background: var(--primary-color);
-      color: white;
-      border: none;
-      padding: 14px;
-      font-size: 1.1rem;
-      font-weight: bold;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.2s;
-      margin-top: 10px;
+      width: 100%; background: var(--primary); color: white; border: none; padding: 15px;
+      font-size: 1rem; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 10px;
     }
     .btn-submit:hover { background: #1d4ed8; }
-    .btn-submit:disabled { background: #94a3b8; cursor: not-allowed; }
 
-    .alert { display: none; padding: 12px 16px; border-radius: 8px; margin-bottom: 20px; font-weight: 500; }
-    .alert-success { background-color: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; }
-    .alert-error { background-color: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+    .alert { display: none; padding: 15px; border-radius: 6px; margin-bottom: 20px; text-align: center; font-weight: bold; }
+    .alert-success { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+    .alert-error { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+
+    .calc-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 10px; }
+    .calc-box { background: #eff6ff; padding: 10px; border-radius: 6px; text-align: center; border: 1px dashed #3b82f6; }
+    .calc-box span { display: block; font-weight: bold; color: #1e3a8a; }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <div class="header">
-    <h1>سامانه زمان‌سنجی انبار و توزین داروسازی</h1>
-    <p>ثبت دقیق پارامترهای فرآیندی و محاسبات خط زمانی تولید</p>
-  </div>
+  <h1>سامانه زمان‌سنجی انبار (نسخه میلادی)</h1>
 
   <div id="alertBox" class="alert"></div>
 
   <form id="timeStudyForm">
-    <!-- بخش اطلاعات پایه -->
     <fieldset>
-      <legend>اطلاعات پایه و مشخصات عملیات</legend>
+      <legend>اطلاعات پایه</legend>
       <div class="grid">
         <div class="form-group">
-          <label class="required">تاریخ عملیات</label>
-          <input type="text" id="dateInput" name="date" class="pdate" required autocomplete="off" placeholder="انتخاب تاریخ...">
+          <label class="required">تاریخ عملیات (Gregorian)</label>
+          <input type="date" id="date" name="date" required>
         </div>
-
         <div class="form-group">
-          <label class="required">محل انجام عملیات (اتاق/انبار)</label>
-          <select name="location" required>
+          <label class="required">نوع فرآیند</label>
+          <select name="processType" id="processType" required onchange="handleProcessTypeChange()">
             <option value="">-- انتخاب کنید --</option>
-            <option value="کلین‌روم ۱ (توزین مواد موثره)">کلین‌روم ۱ (توزین مواد موثره)</option>
-            <option value="کلین‌روم ۲ (توزین جانبی)">کلین‌روم ۲ (توزین جانبی)</option>
-            <option value="انبار مرکزی مواد اولیه">انبار مرکزی مواد اولیه</option>
-            <option value="انبار ملزومات بسته‌بندی">انبار ملزومات بسته‌بندی</option>
-            <option value="انبار قرنطینه">انبار قرنطینه</option>
-          </select>
-        </div>
+            <option value="توزین مواد اولیه">توزین مواد اولیه</option>
+            ; border: 1px solid #bbf7d0; }
+    .alert-error { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
 
+    .calc-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 10px; }
+    .calc-box { background: #eff6ff; padding: 10px; border-radius: 6px; text-align: center; border: 1px dashed #3b82f6; }
+    .calc-box span { display: block; font-weight: bold; color: #1e3a8a; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>سامانه زمان‌سنجی انبار (نسخه میلادی)</h1>
+
+  <div id="alertBox" class="alert"></div>
+
+  <form id="timeStudyForm">
+    <fieldset>
+      <legend>اطلاعات پایه</legend>
+      <div class="grid">
         <div class="form-group">
-          <label class="required">شیفت کاری</label>
-          <select name="shift" required>
-            <option value="">-- انتخاب کنید --</option>
-            <option value="صبح">صبح</option>
-            <option value="عصر">عصر</option>
-            <option value="شب">شب</option>
-          </select>
+          <label class="required">تاریخ عملیات (Gregorian)</label>
+          <input type="date" id="date" name="date" required>
         </div>
-
         <div class="form-group">
           <label class="required">نوع فرآیند</label>
           <select name="processType" id="processType" required onchange="handleProcessTypeChange()">
@@ -154,367 +103,103 @@
             <option value="توزین مواد اولیه">توزین مواد اولیه</option>
             <option value="توزین اقلام بسته‌بندی">توزین اقلام بسته‌بندی</option>
             <option value="SUB&MAIN">SUB&MAIN</option>
-            <option value="انتقال و تحویل‌دهی">انتقال و تحویل‌دهی</option>
-            <option value="تمیزکاری خط و فضا">تمیزکاری خط و فضا</option>
-            <option value="سایر فرآیندها">سایر فرآیندها</option>
+            <option value="تمیزکاری">تمیزکاری</option>
+            <option value="سایر">سایر</option>
           </select>
         </div>
-      </div>
-
-      <div class="grid" style="margin-top: 15px;">
         <div class="form-group">
-          <label id="lblProductName" class="required">نام محصول</label>
-          <select name="productName" id="productName" required>
-            <option value="">-- انتخاب محصول --</option>
-            <option value="قرص استامینوفن ۵۰۰">قرص استامینوفن ۵۰۰</option>
-            <option value="کپسول آموکسی‌سیلین ۵۰۰">کپسول آموکسی‌سیلین ۵۰۰</option>
-            <option value="شربت ایبوپروفن">شربت ایبوپروفن</option>
-            <option value="قطره چشمی سیپروفلوکساسین">قطره چشمی سیپروفلوکساسین</option>
-            <option value="قرص متفورمین ۵۰۰">قرص متفورمین ۵۰۰</option>
-            <option value="سایر محصولات">سایر محصولات</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label id="lblBatchNo" class="required">شماره بچ (Batch No)</label>
-          <input type="text" name="batchNo" id="batchNo" required placeholder="مثال: B-030801">
-        </div>
-
-        <div class="form-group">
-          <label id="lblBatchSize" class="required">بچ سایز (فقط عدد - کیلوگرم/عدد)</label>
-          <input type="number" name="batchSize" id="batchSize" min="0" step="any" required placeholder="مثال: 150">
-        </div>
-
-        <div class="form-group">
-          <label class="required">نام کاربر ثبت‌کننده</label>
-          <input type="text" name="username" required placeholder="نام و نام خانوادگی">
-        </div>
-      </div>
-    </fieldset>
-
-    <!-- بخش تیم اجرایی و اپراتورها -->
-    <fieldset>
-      <legend>تیم اجرایی و اپراتورها</legend>
+          <label id="lblProductName">        <div class="form-group">
+          <label>نام کمکی اپراتور ۲</label>
+          <input type="text" name="opHelper2" id="opHelper2" disabled>
+        input type="time" name="prepEnd" id="prepEnd" class="calc"></div>
+        <div توقفات</legend>
       <div class="grid">
-        <div class="form-group">
-          <label class="required">اپراتور ۱ (توزین‌کار اصلی)</label>
-          <select name="op1" required>
-            <option value="">-- انتخاب اپراتور ۱ --</option>
-            <option value="اپراتور ۱">اپراتور ۱</option>
-            <option value="اپراتور ۲">اپراتور ۲</option>
-            <option value="اپراتور ۳">اپراتور ۳</option>
-            <option value="اپراتور ۴">اپراتور ۴</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label>اپراتور ۲</label>
-          <select name="op2">
-            <option value="">-- فاقد اپراتور ۲ --</option>
-            <option value="اپراتور ۱">اپراتور ۱</option>
-            <option value="اپراتور ۲">اپراتور ۲</option>
-            <option value="اپراتور ۳">اپراتور ۳</option>
-            <option value="اپراتور ۴">اپراتور ۴</option>
-          </select>
-          <div class="checkbox-container">
-            <input type="checkbox" id="hasHelper2" onchange="toggleHelper('hasHelper2', 'opHelper2')">
-            <label for="hasHelper2">دارای نیروی کمکی برای اپراتور ۲</label>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>نام نیروی کمکی اپراتور ۲</label>
-          <input type="text" name="opHelper2" id="opHelper2" disabled placeholder="نام کمکی ۲...">
-        </div>
-
-        <div class="form-group">
-          <label>اپراتور ۳</label>
-          <select name="op3">
-            <option value="">-- فاقد اپراتور ۳ --</option>
-            <option value="اپراتور ۱">اپراتور ۱</option>
-            <option value="اپراتور ۲">اپراتور ۲</option>
-            <option value="اپراتور ۳">اپراتور ۳</option>
-            <option value="اپراتور ۴">اپراتور ۴</option>
-          </select>
-          <div class="checkbox-container">
-            <input type="checkbox" id="hasHelper3" onchange="toggleHelper('hasHelper3', 'opHelper3')">
-            <label for="hasHelper3">دارای نیروی کمکی برای اپراتور ۳</label>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>نام نیروی کمکی اپراتور ۳</label>
-          <input type="text" name="opHelper3" id="opHelper3" disabled placeholder="نام کمکی ۳...">
-        </div>
+        <div class="form-group"><label>شروع آماده‌سازی</label><input type="time" name="prepStart" id="prepStart" class="calc"></div>
+        <div class="form-group"><label>پایان آماده‌سازی</label><input type="time" name="prepEnd" id="prepEnd" class="calc"></div>
+        <div class="form-group"><label>شروع فرآیند</label><input type="time" name="procStart" id="procStart" class="calc" required></div>
+        <div class="form-group"><label>پایان فرآیند</label><input type="time" name="procEnd" id="procEnd" class="calc" required></div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-box">آماده‌سازی<span id="dispPrep">0</span></div>
+        <div class="calc-box">زمان کل<span id="dispProc">0</span></div>
+        <div class="calc-box">زمان مفید<span id="dispNet">0</span></div>
       </div>
     </fieldset>
 
-    <!-- بخش ثبت زمان‌های فرآیندی -->
-    <fieldset>
-      <legend>زمان‌های فرآیندی (فرمت 24 ساعته)</legend>
-      <div class="grid-4">
-        <div class="form-group">
-          <label>شروع آماده‌سازی</label>
-          <input type="time" name="prepStart" id="prepStart" class="time-calc">
-        </div>
-        <div class="form-group">
-          <label>پایان آماده‌سازی</label>
-          <input type="time" name="prepEnd" id="prepEnd" class="time-calc">
-        </div>
-        <div class="form-group">
-          <label>شروع نمونه‌برداری / QC</label>
-          <input type="time" name="qcStart" id="qcStart" class="time-calc">
-        </div>
-        <div class="form-group">
-          <label>پایان نمونه‌برداری / QC</label>
-          <input type="time" name="qcEnd" id="qcEnd" class="time-calc">
-        </div>
-      </div>
-
-      <div class="grid-4" style="margin-top: 15px;">
-        <div class="form-group">
-          <label>شروع انتقال اقلام</label>
-          <input type="time" name="transStart" id="transStart" class="time-calc">
-        </div>
-        <div class="form-group">
-          <label>پایان انتقال اقلام</label>
-          <input type="time" name="transEnd" id="transEnd" class="time-calc">
-        </div>
-        <div class="form-group">
-          <label class="required">شروع فرآیند اصلی</label>
-          <input type="time" name="procStart" id="procStart" class="time-calc" required>
-        </div>
-        <div class="form-group">
-          <label class="required">پایان فرآیند اصلی</label>
-          <input type="time" name="procEnd" id="procEnd" class="time-calc" required>
-        </div>
-      </div>
-    </fieldset>
-
-    <!-- بخش توقفات -->
-    <fieldset>
-      <legend>توقفات و تاخیرات فرآیند</legend>
-      <div class="grid">
-        <div class="form-group">
-          <label>شروع توقف ۱</label>
-          <input type="time" name="stop1Start" id="stop1Start" class="time-calc">
-        </div>
-        <div class="form-group">
-          <label>پایان توقف ۱</label>
-          <input type="time" name="stop1End" id="stop1End" class="time-calc">
-        </div>
-        <div class="form-group" style="grid-column: span 2;">
-          <label>علت توقف ۱</label>
-          <input type="text" name="stop1Reason" placeholder="مثال: کالیبراسیون ترازو، عدم تایید مستندات...">
-        </div>
-      </div>
-
-      <div class="grid" style="margin-top: 10px;">
-        <div class="form-group">
-          <label>شروع توقف ۲</label>
-          <input type="time" name="stop2Start" id="stop2Start" class="time-calc">
-        </div>
-        <div class="form-group">
-          <label>پایان توقف ۲</label>
-          <input type="time" name="stop2End" id="stop2End" class="time-calc">
-        </div>
-        <div class="form-group" style="grid-column: span 2;">
-          <label>علت توقف ۲</label>
-          <input type="text" name="stop2Reason" placeholder="علت توقف دوم...">
-        </div>
-      </div>
-
-      <div class="grid" style="margin-top: 10px;">
-        <div class="form-group">
-          <label>شروع توقف ۳</label>
-          <input type="time" name="stop3Start" id="stop3Start" class="time-calc">
-        </div>
-        <div class="form-group">
-          <label>پایان توقف ۳</label>
-          <input type="time" name="stop3End" id="stop3End" class="time-calc">
-        </div>
-        <div class="form-group" style="grid-column: span 2;">
-          <label>علت توقف ۳</label>
-          <input type="text" name="stop3Reason" placeholder="علت توقف سوم...">
-        </div>
-      </div>
-    </fieldset>
-
-    <!-- محاسبات لحظه‌ای و هوشمند -->
-    <fieldset>
-      <legend>محاسبات خودکار مدت زمان‌ها (دقیقه)</legend>
-      <div class="grid">
-        <div class="calculated-box">
-          <label>مدت آماده‌سازی</label>
-          <span id="dispPrep">۰</span>
-        </div>
-        <div class="calculated-box">
-          <label>مدت زمان QC</label>
-          <span id="dispQC">۰</span>
-        </div>
-        <div class="calculated-box">
-          <label>مدت انتقال</label>
-          <span id="dispTrans">۰</span>
-        </div>
-        <div class="calculated-box">
-          <label>مدت کل فرآیند</label>
-          <span id="dispProc">۰</span>
-        </div>
-        <div class="calculated-box" style="border-color: #10b981; background: #ecfdf5;">
-          <label style="color: #065f46;">زمان مفید خالص</label>
-          <span id="dispNet" style="color: #047857;">۰</span>
-        </div>
-      </div>
-    </fieldset>
-
-    <button type="submit" id="btnSubmit" class="btn-submit">ثبت نهایی و ارسال به پایگاه داده</button>
+    <button type="submit" id="btnSubmit" class="btn-submit">ثبت در گوگل شیت</button>
   </form>
 </div>
 
 <script>
-  // آدرس اتصال به Google Apps Script
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyf2pX36Fz25qWl3l-mX-ZgR_v_7Vn8E8/exec"; // لینک خودت را جایگزین کن
+  // آدرس وب‌اپ خودت را اینجا بگذار
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzHidMYb-JBYmpBTdhy3Le68-vaqtNwrD-M9IcOYw8AYeBVNKC6CG4tsbavsDFAJxH9hw/exec"; 
 
-  $(document).ready(function() {
-    // فعال‌سازی تقویم پاپ‌آپ شمسی
-    $(".pdate").pDatepicker({
-      format: 'YYYY/MM/DD',
-      autoClose: true,
-      initialValue: true,
-      persianDigit: false
-    });
-  });
-
-  // کنترل فعال/غیرفعال بودن نیروی کمکی
-  function toggleHelper(chkId, inputId) {
-    const chk = document.getElementById(chkId);
-    const input = document.getElementById(inputId);
-    input.disabled = !chk.checked;
-    if (!chk.checked) input.value = "";
-  }
-
-  // منطق کنترل نوع فرآیند
   function handleProcessTypeChange() {
-    const pType = document.getElementById('processType').value;
-    const allowedTypes = ['توزین مواد اولیه', 'توزین اقلام بسته‌بندی', 'SUB&MAIN'];
-    const isSpecial = allowedTypes.includes(pType);
-
-    const fields = [
-      { el: document.getElementById('productName'), lbl: document.getElementById('lblProductName') },
-      { el: document.getElementById('batchNo'), lbl: document.getElementById('lblBatchNo') },
-      { el: document.getElementById('batchSize'), lbl: document.getElementById('lblBatchSize') },
-      { el: document.getElementById('prepStart'), lbl: null },
-      { el: document.getElementById('prepEnd'), lbl: null },
-      { el: document.getElementById('qcStart'), lbl: null },
-      { el: document.getElementById('qcEnd'), lbl: null },
-      { el: document.getElementById('transStart'), lbl: null },
-      { el: document.getElementById('transEnd'), lbl: null }
-    ];
-
-    fields.forEach(f => {
-      f.el.disabled = !isSpecial;
-      if (!isSpecial) {
-        f.el.value = "";
-        f.el.removeAttribute('required');
-        if (f.lbl) f.lbl.classList.remove('required');
-      } else {
-        if (['productName', 'batchNo', 'batchSize'].includes(f.el.id)) {
-          f.el.setAttribute('required', 'required');
-          if (f.lbl) f.lbl.classList.add('required');
-        }
-      }
+    const val = document.getElementById('processType').value;
+    const isSpecial = ['توزین مواد اولیه', 'توزین اقلام بسته‌بندی', 'SUB&MAIN'].includes(val);
+    const fields = ['productName', 'batchNo', 'batchSize'];
+    
+    fields.forEach(id => {
+      const el = document.getElementById(id);
+      el.disabled = !isSpecial;
+      if(!isSpecial) el.value = "";
     });
-
-    calculateAll();
   }
 
-  // محاسبه اختلاف دو زمان به دقیقه (با هندلینگ نیمه‌شب)
-  function diffMinutes(start, end) {
-    if (!start || !end) return 0;
-    const [h1, m1] = start.split(':').map(Number);
-    const [h2, m2] = end.split(':').map(Number);
-    let diff = (h2 * 60 + m2) - (h1 * 60 + m1);
-    if (diff < 0) diff += 24 * 60; // عبور از ۲۴:۰۰
-    return diff;
+  function calculate() {
+    const getMin = (id) => {
+      const val = document.getElementById(id).value;
+      if(!val) return 0;
+      const [h, m] = val.split(':').map(Number);
+      return h * 60 + m;
+    };
+
+    const prep = getMin('prepEnd') - getMin('prepStart');
+    const total = getMin('procEnd') - getMin('procStart');
+    
+    document.getElementById('dispPrep').innerText = prep > 0 ? prep : 0;
+    document.getElementById('dispProc').innerText = total > 0 ? total : 0;
+    document.getElementById('dispNet').innerText = total > 0 ? total : 0;
   }
 
-  // محاسبه کلیه زمان‌ها
-  function calculateAll() {
-    const durPrep = diffMinutes($('#prepStart').val(), $('#prepEnd').val());
-    const durQC = diffMinutes($('#qcStart').val(), $('#qcEnd').val());
-    const durTrans = diffMinutes($('#transStart').val(), $('#transEnd').val());
-    const durProc = diffMinutes($('#procStart').val(), $('#procEnd').val());
+  document.querySelectorAll('.calc').forEach(el => el.addEventListener('input', calculate));
 
-    // مجموع توقفات
-    const s1 = diffMinutes($('#stop1Start').val(), $('#stop1End').val());
-    const s2 = diffMinutes($('#stop2Start').val(), $('#stop2End').val());
-    const s3 = diffMinutes($('#stop3Start').val(), $('#stop3End').val());
-    const totalStops = s1 + s2 + s3;
-
-    let durNet = durProc - totalStops;
-    if (durNet < 0) durNet = 0;
-
-    $('#dispPrep').text(durPrep);
-    $('#dispQC').text(durQC);
-    $('#dispTrans').text(durTrans);
-    $('#dispProc').text(durProc);
-    $('#dispNet').text(durNet);
-
-    return { durPrep, durQC, durTrans, durProc, durNet };
-  }
-
-  $('.time-calc').on('input change', calculateAll);
-
-  // ارسال فرم
-  $('#timeStudyForm').on('submit', function(e) {
+  document.getElementById('timeStudyForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    const btn = $('#btnSubmit');
-    const alertBox = $('#alertBox');
+    const btn = document.getElementById('btnSubmit');
+    const alertBox = document.getElementById('alertBox');
+    
+    btn.disabled = true;
+    btn.innerText = "در حال ارسال...";
 
-    btn.prop('disabled', true).text('در حال ثبت و ارسال اطلاعات...');
-    alertBox.hide().removeClass('alert-success alert-error');
-
-    const durations = calculateAll();
-    const formData = {};
-
-    // جمع‌آوری تمام داده‌ها
-    $(this).serializeArray().forEach(item => {
-      formData[item.name] = item.value;
-    });
-
-    // مقادیر اینپوت‌های غیرفعال را هم اگر بود با رشته خالی هندل می‌کنیم
-    if (!formData.opHelper2) formData.opHelper2 = $('#opHelper2').val() || "";
-    if (!formData.opHelper3) formData.opHelper3 = $('#opHelper3').val() || "";
-    if (!formData.productName) formData.productName = $('#productName').val() || "";
-    if (!formData.batchNo) formData.batchNo = $('#batchNo').val() || "";
-    if (!formData.batchSize) formData.batchSize = $('#batchSize').val() || "";
-
-    // الحاق مقادیر محاسباتی
-    Object.assign(formData, durations);
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData.entries());
+    
+    // اضافه کردن مقادیر محاسباتی
+    data.durPrep = document.getElementById('dispPrep').innerText;
+    data.durProc = document.getElementById('dispProc').innerText;
+    data.durNet = document.getElementById('dispNet').innerText;
 
     fetch(SCRIPT_URL, {
       method: 'POST',
-      body: JSON.stringify(formData)
+      mode: 'no-cors', // برای رفع موقت مشکل فچ در برخی بروزرها
+      body: JSON.stringify(data)
     })
-    .then(res => res.json())
-    .then(data => {
-      if (data.status === 'success') {
-        alertBox.addClass('alert-success').text('اطلاعات با موفقیت در ردیف ' + data.row + ' پایگاه داده ثبت شد.').show();
-        $('#timeStudyForm')[0].reset();
-        calculateAll();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        throw new Error(data.message || 'خطا در ثبت اطلاعات');
-      }
+    .then(() => {
+      alertBox.style.display = "block";
+      alertBox.className = "alert alert-success";
+      alertBox.innerText = "داده‌ها با موفقیت ارسال شد (وضعیت No-Cors). لطفا شیت را چک کنید.";
+      this.reset();
+      btn.disabled = false;
+      btn.innerText = "ثبت در گوگل شیت";
     })
     .catch(err => {
-      alertBox.addClass('alert-error').text('خطا در ارسال: ' + err.message).show();
-    })
-    .finally(() => {
-      btn.prop('disabled', false).text('ثبت نهایی و ارسال به پایگاه داده');
+      alertBox.style.display = "block";
+      alertBox.className = "alert alert-error";
+      alertBox.innerText = "خطا: " + err.message;
+      btn.disabled = false;
     });
   });
 </script>
-
 </body>
 </html>
